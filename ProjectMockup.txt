@@ -1,0 +1,9 @@
+Admin
+------------------------------
+1. Add library
+2. Assign Manager
+
+Manager
+------------------------------
+1. Access Acount and add books.
+2. Send daily status to admin.

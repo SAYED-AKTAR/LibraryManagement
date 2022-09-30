@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script>
+        function do_delete(val){
+            const conf = window.confirm("Want to activate this user ?");
+            if(conf === true){
+                fetch('http://localhost:8000/visitorStatusChange', {
+                    method: 'POST', // or 'PUT'
+                    headers: {'Content-Type': 'multipart/form-data'},
+                    body: JSON.stringify({"email": val, "isDelete": true}),
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    window.location.reload();
+                })
+                .catch((error) => {
+                    alert("Something went wrong, try again !!!");
+                });
+            }
+        }
+    
+        function update_book(libname, uid){
+            document.getElementById("libName").value=libname;
+            document.getElementById("uid").value=uid;
+        }
+
+        function manager_edit(val){
+            document.getElementById("f_"+val).style.display = "none";
+            document.getElementById("l_"+val).style.display = "block";
+        }
+
+        function restore_prevState(val){
+            document.getElementById("f_"+val).style.display = "block";
+            document.getElementById("l_"+val).style.display = "none";
+        }
+    </script>
+    <style>
+        a{
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    {{>adminNavbar}}
+    <div class="container">
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/adminUpdateBookStock" method="POST">
+                            <div class="mb-3">
+                                <label for="libName" class="form-label">Library Name</label>
+                                <input readonly type="text" name="libName" class="form-control" id="libName" aria-describedby="emailHelp">
+                            </div>
+                            <div class="mb-3">
+                                <label for="uid" class="form-label">Unique Id</label>
+                                <input readonly type="text" name="uid" class="form-control" id="uid">
+                            </div>
+                            <div class="mb-3">
+                                <label for="bookName" class="form-label">Book Name</label>
+                                <select id="bookName" name="bookName" class="form-select">
+                                    <option>-- Select --</option>
+                                    {{#each dbBookData}}
+                                        <option value="{{name}} ||| {{unique_id}} ||| {{stock}}">{{name}} ({{stock}})</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="itemNo" class="form-label">No. Of Item(s)</label>
+                                <input type="number" name="itemNo" class="form-control" id="itemNo">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- End Modal -->
+
+        <div style="margin-top: 20px;">
+            <div style="float: left;">
+                <a href="/adminBookList">
+                <button type="button" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                    </svg> &nbsp;Book List
+                </button>
+                </a>
+                <a href="/adminAddBook">
+                <button type="button" class="btn btn-outline-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg> &nbsp;Add Book
+                </button>
+                </a>
+            </div>
+            <div style="float: right;">
+                <a href="/adminAddLibForm">
+                <button type="button" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg> &nbsp;Add Library
+                </button>
+                </a>
+            </div>
+        </div>
+       
+       <br>
+        
+        <div style="margin-top: 24px;">
+            <table class="table">
+                <h3 style="padding-top: 30px;">Library List</h3>
+                <hr>
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Unique Id</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Manager</th>
+                        <th scope="col" style="text-align: center;">Update Book</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each dbLibraryData}}
+                    <tr>
+                        <th scope="col">{{name}}</th>
+                        <td scope="col">{{unique_id}}</td>
+                        <td scope="col">{{address}}</td>
+                        <td scope="col">{{manager}}</td>
+                        
+                        <td scope="col" style="text-align: center;">
+                            <button type="button" onclick="update_book('{{name}}', '{{unique_id}}')" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Update
+                            </button>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</body>
+</html>

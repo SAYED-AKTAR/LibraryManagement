@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+</head>
+<body>
+    {{>managerNavbar}}
+    {{!-- Charts --}}
+    <div>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col">
+                <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+                </div>
+                <div class="col">
+                <canvas id="myChartSecond" style="width:100%;max-width:600px"></canvas>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                <canvas id="myChartThird" style="width:100%;max-width:600px"></canvas>
+                </div>
+                <div class="col">
+                <canvas id="myChartFourth" style="width:100%;max-width:600px"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        
+        <script>
+            var xValues = [50,60,70,80,90,100,110,120,130,140,150];
+            var yValues = [7,8,8,9,9,9,10,11,14,14,15];
+
+            new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                fill: false,
+                lineTension: 0,
+                backgroundColor: "rgba(0,0,255,1.0)",
+                borderColor: "rgba(0,0,255,0.1)",
+                data: yValues
+                }]
+            },
+            options: {
+                legend: {display: false},
+                scales: {
+                yAxes: [{ticks: {min: 6, max:16}}],
+                }
+            }
+            });
+        </script>
+        
+        <script>
+            var xValues = [100,200,300,400,500,600,700,800,900,1000];
+
+            new Chart("myChartSecond", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{ 
+                data: [860,1140,1060,1060,1070,1110,1330,2210,7830,2478],
+                borderColor: "red",
+                fill: false
+                }, { 
+                data: [1600,1700,1700,1900,2000,2700,4000,5000,6000,7000],
+                borderColor: "green",
+                fill: false
+                }, { 
+                data: [300,700,2000,5000,6000,4000,2000,1000,200,100],
+                borderColor: "blue",
+                fill: false
+                }]
+            },
+            options: {
+                legend: {display: false}
+            }
+            });
+        </script>
+        
+        <script>
+            var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
+            var yValues = [55, 49, 44, 24, 15];
+            var barColors = [
+            "#b91d47",
+            "#00aba9",
+            "#2b5797",
+            "#e8c3b9",
+            "#1e7145"
+            ];
+
+            new Chart("myChartThird", {
+            type: "pie",
+            data: {
+                labels: xValues,
+                datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+                }]
+            },
+            options: {
+                title: {
+                display: true,
+                text: "World Wide Wine Production 2018"
+                }
+            }
+            });
+        </script>
+        
+        <script>
+            var xValues = [];
+            var yValues = [];
+            generateData("Math.sin(x)", 0, 10, 0.5);
+
+            new Chart("myChartFourth", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                fill: false,
+                pointRadius: 2,
+                borderColor: "rgba(0,0,255,0.5)",
+                data: yValues
+                }]
+            },    
+            options: {
+                legend: {display: false},
+                title: {
+                display: true,
+                text: "y = x * 2 + 7",
+                fontSize: 16
+                }
+            }
+            });
+            function generateData(value, i1, i2, step = 1) {
+            for (let x = i1; x <= i2; x += step) {
+                yValues.push(eval(value));
+                xValues.push(x);
+            }
+            }
+        </script>
+    </div>
+    {{!-- End Charts --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</body>
+</html>

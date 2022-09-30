@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script>
+        function stock_edit(val){
+            document.getElementById("f_"+val).style.display = "none";
+            document.getElementById("l_"+val).style.display = "block";
+        }
+
+        function restore_prevState(val){
+            document.getElementById("f_"+val).style.display = "block";
+            document.getElementById("l_"+val).style.display = "none";
+        }
+    </script>
+    <style>
+        a{
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    {{>adminNavbar}}
+    <div class="container">
+        <div style="float: left;">
+            <a href="/adminBookList">
+            <button type="button" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                </svg> &nbsp;Book List
+            </button>
+            </a>
+            <a href="/adminAddBook">
+            <button type="button" class="btn btn-outline-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg> &nbsp;Add Book
+            </button>
+            </a>
+        </div>
+        <div style="float: right;">
+            <a href="/adminAddLibForm">
+            <button type="button" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg> &nbsp;Add Library
+            </button>
+            </a>
+        </div>
+        <div style="margin-top: 24px;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">Unique Id</th>
+                        <th scope="col">Photo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each adminBookList}}
+                    <tr>
+                        <th scope="col">{{name}}</th>
+                        <td scope="col" onclick="stock_edit('{{unique_id}}')" id="f_{{unique_id}}">{{stock}}</td>
+                        <td scope="col" id="l_{{unique_id}}" style="display: none;">
+                            <form action="?" method="POST">
+                                <input type="hidden" name="uid" value="{{unique_id}}"/>
+                                <input onblur="restore_prevState('{{unique_id}}')" type="text" name="stock_update" value="{{stock}}"/>
+                            </form>
+                        </td>
+                        <td scope="col">{{unique_id}}</td>
+                        <td scope="col"><img src="static/book_images/{{photo}}" width="50" height="50"/></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</body>
+</html>

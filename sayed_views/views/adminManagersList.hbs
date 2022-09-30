@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script>
+        function make_deactivate(val){
+            const conf = window.confirm("Want to deactivate this user ?");
+            if(conf === true){
+                fetch('http://localhost:8000/managerStatusChange', {
+                method: 'POST', // or 'PUT'
+                headers: {'Content-Type': 'multipart/form-data'},
+                body: JSON.stringify({"email": val, "isActive": false}),
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    //console.log('Success:', data);
+                    window.location.reload();
+                })
+                .catch((error) => {
+                    //console.log('Error:', error);
+                    alert("Something went wrong, try again !!!");
+                });
+            }
+        }
+        function make_activate(val){
+            const conf = window.confirm("Want to activate this user ?");
+            if(conf === true){
+                fetch('http://localhost:8000/managerStatusChange', {
+                method: 'POST', // or 'PUT'
+                headers: {'Content-Type': 'multipart/form-data'},
+                body: JSON.stringify({"email": val, "isActive": true}),
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    //console.log('Success:', data);
+                    window.location.reload();
+                })
+                .catch((error) => {
+                    //console.log('Error:', error);
+                    alert("Something went wrong, try again !!!");
+                });
+            }
+        }
+    </script>
+</head>
+
+<body>
+    {{>adminNavbar}}
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {{#each dbManagerData}}
+                    <tr>
+                        <th scope="row">{{name}}</th>
+                        <td>{{email}}</td>
+                        <td>{{address}}</td>
+                        {{#if isActive}}
+                            <td>
+                                <button type="button" class="btn btn-success" onclick="make_deactivate('{{email}}')">Active</button>
+                            </td>
+                        {{else}}
+                            <td>
+                                <button type="button" class="btn btn-danger" onclick="make_activate('{{email}}')">Inactive</button>
+                            </td>
+                        {{/if}}
+                    </tr>
+                {{/each}}
+                
+                
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "librarymanagement",
+  "version": "1.0.0",
+  "description": "This will a be a library management system, using node, express and mongo.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "SAYED",
+  "license": "ISC",
+  "dependencies": {
+    "ember-truth-helpers": "^3.1.1",
+    "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
+    "express-session": "^1.17.3",
+    "hbs": "^4.2.0",
+    "local-storage": "^2.0.0",
+    "mongoose": "^6.6.1",
+    "node-localstorage": "^2.2.1",
+    "node-sessionstorage": "^1.0.0",
+    "sessionstorage": "^0.1.0"
+  }
+}

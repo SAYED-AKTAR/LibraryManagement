@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Manager Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+    <style>
+        a{
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    {{>managerNavbar}}
+    <div class="container">
+        <div style="margin-top: 20px;">
+            <div style="float: right;">
+                <a href="/managerBookList">
+                <button type="button" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                    </svg> &nbsp;Book List
+                </button>
+                </a>
+                <a href="/managerReqBook">
+                <button type="button" class="btn btn-outline-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg> &nbsp;Request Book
+                </button>
+                </a>
+            </div>
+        </div>
+       
+       <br>
+        
+        <div style="margin-top: 24px;">
+            <h3 style="padding-top: 30px;">Library Overview</h3>
+            <hr><hr>
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <div class="container"> 
+                        <div style="float: left;">
+                            <h5 class="card-title">Name:- 
+                                <span style="font-size: 18px; font-weight: normal;">{{libData.name}}</span> 
+                            </h5>
+                        </div>
+                        <div style="float: right;">
+                            <h5 class="card-title">Unique ID:- 
+                                <span style="font-size: 18px; font-weight: normal;">{{libData.unique_id}}</span> 
+                            </h5>
+                        </div>
+                    </div>
+                    
+                    <div class="container mt-5">
+                        <h5 class="card-title">Library Address:- </h5>
+                        <p style="font-size: 18px; font-weight: normal;">{{libData.address}}</p>
+                    </div>
+                    <div class="container mt-1">
+                        <h5 class="card-title">Total Book Number: </h5>
+                        <p style="font-size: 18px; font-weight: normal;">{{libData.book_id.length}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</body>
+</html>
